@@ -15,11 +15,15 @@ type Storage interface {
 	Pop(ctx context.Context) ([]byte, error)
 }
 
+func newStorage() Storage {
+	return storage.NewStorage(db.NewDBMock(time.Millisecond*5), time.Minute)
+}
+
 func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	s := storage.NewStorage(db.NewDBMock(time.Millisecond*5), time.Minute)
+	s := newStorage()
 
 	wg := sync.WaitGroup{}
 	const count = 1000
