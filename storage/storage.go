@@ -1,6 +1,9 @@
 package storage
 
-import "context"
+import (
+	"context"
+	"time"
+)
 
 type DB interface {
 	Push(data []byte)
@@ -9,10 +12,15 @@ type DB interface {
 
 type storage struct {
 	db DB
+	// canLoseDuration duration in which we can lose messages
+	canLoseDuration time.Duration
 }
 
-func NewStorage(db DB) *storage {
-	return &storage{db: db}
+func NewStorage(db DB, canLoseDuration time.Duration) *storage {
+	return &storage{
+		db:              db,
+		canLoseDuration: canLoseDuration,
+	}
 }
 func (s *storage) Push(ctx context.Context, data []byte) {
 	panic("Implement me")

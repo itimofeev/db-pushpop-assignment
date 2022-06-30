@@ -19,7 +19,7 @@ func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	s := storage.NewStorage(db.NewDBMock())
+	s := storage.NewStorage(db.NewDBMock(time.Millisecond*5), time.Minute)
 
 	wg := sync.WaitGroup{}
 	const count = 1000
